@@ -23,7 +23,7 @@ is_admin = False
 
 if user_type == "Admin":
     admin_password = st.sidebar.text_input("Enter Admin Password", type="password")
-    if admin_password == "admin123":   # <-- You can change this password
+    if admin_password == "admin123":
         st.sidebar.success("Admin login successful.")
         is_admin = True
     else:
