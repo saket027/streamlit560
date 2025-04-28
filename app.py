@@ -2,7 +2,6 @@ import streamlit as st
 import psycopg2
 import pandas as pd
 import os
-
 def create_connection():
     try:
         conn = psycopg2.connect(
@@ -106,6 +105,47 @@ if conn:
             st.write("Access Level: Admin (Full Access)")
         else:
             st.write("Access Level: User (Only SELECT queries are allowed)")
+        with st.expander("View Database Table Schemas (Click to Expand)"):
+            st.markdown("""
+            ### Table: artists
+            - artist_id (SERIAL PRIMARY KEY)
+            - name (VARCHAR, UNIQUE, NOT NULL)
+
+            ### Table: albums
+            - album_id (SERIAL PRIMARY KEY)
+            - title (VARCHAR, NOT NULL)
+            - artist_id (INT, Foreign Key → artists)
+            - release_date (DATE)
+
+            ### Table: songs
+            - song_id (SERIAL PRIMARY KEY)
+            - title (VARCHAR, NOT NULL)
+            - album_id (INT, Foreign Key → albums)
+            - duration_ms (INT)
+
+            ### Table: song_features
+            - feature_id (SERIAL PRIMARY KEY)
+            - song_id (INT, Foreign Key → songs)
+            - danceability (FLOAT)
+            - energy (FLOAT)
+            - acousticness (FLOAT)
+            - loudness (FLOAT)
+            - instrumentalness (FLOAT)
+
+            ### Table: countries
+            - country_id (SERIAL PRIMARY KEY)
+            - name (VARCHAR, UNIQUE, NOT NULL)
+            - region (VARCHAR)
+
+            ### Table: streaming_stats
+            - stats_id (SERIAL PRIMARY KEY)
+            - song_id (INT, Foreign Key → songs)
+            - country_id (INT, Foreign Key → countries)
+            - date (DATE)
+            - rank (INT)
+            - popularity (INT)
+            - explicit (BOOLEAN)
+            """)
 
         user_query = st.text_area("Enter your SQL query below:", height=150)
 
